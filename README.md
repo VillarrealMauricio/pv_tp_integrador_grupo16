@@ -1,16 +1,16 @@
-# React + Vite
+Trabajo Práctico Integrador - Grupo 16
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Descripción del Proyecto: 
 
-Currently, two official plugins are available:
+El objetivo de este proyecto es construir un Panel de Control de Clientes en tiempo real. Consiste en el desarrollo progresivo de una aplicación web funcional estructurada en componentes, utilizando React, Vite, JavaScript y React Router DOM. La plataforma se conecta de forma asincrónica a un servidor real en la nube consumiendo la API pública FakeStore API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+INTEGRANTES: 
+Franco Gabriel Sanchez Amaya - [Seiseishon](https://github.com/Seiseishon)
 
-## React Compiler
+Noel Silvio Raul Chiliguay - [NoelChiliguay](https://github.com/NoelChiliguay)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Nelson Fabian Ramos - [Nelson-Ramos07](https://github.com/Nelson-Ramos07)
 
-## Expanding the ESLint configuration
+Mauricio Maximiliano Villarreal - [VillarrealMauricio](https://github.com/VillarrealMauricio)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Sergio Saul Alex Soza - [SergiosSozas1621](https://github.com/SergiosSozas1621)
