@@ -4,8 +4,12 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { AdminProvider } from './context/AdminContext.jsx';
+
 createRoot(document.getElementById('root')).render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <AdminProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AdminProvider>
 )
