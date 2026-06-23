@@ -48,3 +48,12 @@
     border-color: #0369a1;
     transform: scale(1.02);
 }
+
+
+.footer-link {
+    transition: all 0.2s ease-in-out;
+}
+.footer-link:hover {
+    color: #0369a1 !important;
+    padding-left: 5px;
+}
