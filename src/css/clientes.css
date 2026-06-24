@@ -1,0 +1,80 @@
+.cliente-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    background-color: #ffffff;
+}
+
+.cliente-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(3, 105, 161, 0.12) !important; 
+    border-color: rgba(3, 105, 161, 0.2) !important;
+}
+
+.cliente-avatar {
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.cliente-card:hover .cliente-avatar {
+    background: #e0f2fe !important;
+    transform: scale(1.08);
+}
+
+.cliente-card:hover .cliente-avatar i {
+    color: #0369a1 !important;
+    transition: color 0.3s ease;
+}
+
+.cliente-data-icon {
+    width: 18px;
+    text-align: center;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.cliente-card:hover .cliente-data-icon {
+    opacity: 1;
+}
+
+.btn-ficha-custom {
+    transition: all 0.3s ease;
+    border-color: #dee2e6;
+    color: #495057;
+}
+
+.cliente-card:hover .btn-ficha-custom {
+    background-color: #0369a1;
+    color: #ffffff;
+    border-color: #0369a1;
+    transform: scale(1.02);
+}
+
+/* Barra de busqueda */
+.search-container {
+    border-radius: 50px; 
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+}
+
+.search-container:focus-within {
+    box-shadow: 0 8px 16px rgba(3, 105, 161, 0.12) !important;
+    border-color: #bae6fd;
+    transform: translateY(-2px);
+}
+
+.search-input {
+    background-color: transparent !important;
+}
+
+.search-input::placeholder {
+    color: #adb5bd;
+    font-weight: 500;
+}
+
+.btn-clear-search {
+    transition: color 0.2s;
+}
+.btn-clear-search:hover {
+    color: #dc3545 !important; 
+}
