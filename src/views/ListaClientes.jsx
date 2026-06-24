@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Container, Alert, Row, Col, Card, Badge, Button, Placeholder, Form, InputGroup, Toast, ToastContainer } from 'react-bootstrap';
 import '../css/clientes.css';
@@ -168,7 +169,7 @@ const ListaClientes = () => {
                                                 <span className="fw-medium">{city}</span>
                                             </div>
                                         </div>
-                                        <Button variant="light" className="w-100 rounded-pill fw-semibold btn-ficha-custom mt-auto shadow-sm">
+                                        <Button as={Link} to={`/clientes/${cliente?.id}`} variant="light" className="w-100 rounded-pill fw-semibold btn-ficha-custom mt-auto shadow-sm">
                                             Ver Ficha Completa
                                         </Button>
                                     </Card.Body>
