@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Container, Alert, Row, Col, Card, Badge, Button, Placeholder } from 'react-bootstrap';
+import { Container, Alert, Row, Col, Card, Badge, Button, Placeholder, Form, InputGroup } from 'react-bootstrap';
 import '../css/clientes.css';
 
 const ListaClientes = () => {
     const [clientes, setClientes] = useState([]); 
     const [loading, setLoading] = useState(true); 
-    const [error, setError] = useState(null);     
-
+    const [error, setError] = useState(null);
+    
+    const [busqueda, setBusqueda] = useState('');     
+    // Llamada de Api
     useEffect(() => {
         const fetchClientes = async () => {
             try {
@@ -26,6 +28,14 @@ const ListaClientes = () => {
         };
         fetchClientes();
     }, []);
+    // Filtro de busqueda
+    const clientesFiltrados = clientes.filter((cliente) => {
+        const termino = busqueda.toLowerCase();
+        const apellido = cliente.name.lastname.toLowerCase();
+        const ciudad = cliente.address.city.toLowerCase();
+        
+        return apellido.includes(termino) || ciudad.includes(termino);
+    });
 
     if (error) {
         return (
@@ -41,27 +51,51 @@ const ListaClientes = () => {
     return (
         <Container fluid className="py-4 px-4">
             
-            <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
-                <div>
+            <Row className="align-items-center mb-4 gy-3">
+                <Col xs={12} lg={4}>
                     <h2 className="fw-bold text-dark mb-0">Gestión de Clientes</h2>
-                    <p className="text-secondary mb-0">Directorio completo de usuarios registrados en el sistema.</p>
-                </div>
+                    <p className="text-secondary mb-0">Directorio completo de usuarios registrados.</p>
+                </Col>
+                
+                <Col xs={12} md={8} lg={5} className="mx-auto">
+                    <InputGroup className="search-container shadow-sm py-1">
+                        <InputGroup.Text className="bg-transparent border-0 text-primary ps-4">
+                            <i className="fas fa-search opacity-75"></i>
+                        </InputGroup.Text>
+                        <Form.Control 
+                            type="text" 
+                            placeholder="Buscar por apellido o ciudad..." 
+                            className="border-0 shadow-none py-2 search-input text-dark fw-medium"
+                            value={busqueda}
+                            onChange={(e) => setBusqueda(e.target.value)}
+                            disabled={loading}
+                        />
+                        {busqueda && (
+                            <Button 
+                                variant="link" 
+                                className="border-0 text-secondary pe-4 text-decoration-none btn-clear-search" 
+                                onClick={() => setBusqueda('')}
+                            >
+                                <i className="fas fa-times-circle fs-5"></i>
+                            </Button>
+                        )}
+                    </InputGroup>
+                </Col>
+
+                <Col xs={12} md={4} lg={3} className="text-lg-end">
                     {!loading && (
-                    <div className="d-inline-flex align-items-center px-4 py-2 bg-white border border-light-subtle shadow-sm rounded-pill">
-                    <div 
-                        className="rounded-circle d-flex justify-content-center align-items-center me-2" 
-                        style={{ width: '28px', height: '28px', backgroundColor: '#e0f2fe', color: '#0369a1' }}
-                    >
-                        <i className="fas fa-users" style={{ fontSize: '0.85rem' }}></i>
-                    </div>
-                        <span className="fw-bold text-dark fs-6 me-1">{clientes.length}</span>
-                        <span className="text-secondary fw-medium" style={{ fontSize: '0.95rem' }}>Registros Totales</span>
-                    </div>
-                )}
-            </div>
+                        <div className="d-inline-flex align-items-center px-4 py-2 bg-white border border-light-subtle shadow-sm rounded-pill">
+                            <div className="rounded-circle d-flex justify-content-center align-items-center me-2" style={{ width: '28px', height: '28px', backgroundColor: '#e0f2fe', color: '#0369a1' }}>
+                                <i className="fas fa-users" style={{ fontSize: '0.85rem' }}></i>
+                            </div>
+                            <span className="fw-bold text-dark fs-6 me-1">{clientesFiltrados.length}</span>
+                            <span className="text-secondary fw-medium" style={{ fontSize: '0.95rem' }}>Registros</span>
+                        </div>
+                    )}
+                </Col>
+            </Row>
 
             <Row xs={1} md={2} lg={3} xl={4} className="g-4">
-                
                 {loading ? (
                     Array.from({ length: 8 }).map((_, index) => (
                         <Col key={index}>
@@ -88,9 +122,16 @@ const ListaClientes = () => {
                             </Card>
                         </Col>
                     ))
+                ) : clientesFiltrados.length === 0 ? (
+                    <Col xs={12}>
+                        <div className="text-center py-5">
+                            <i className="fas fa-search-minus text-secondary mb-3" style={{ fontSize: '3rem', opacity: 0.5 }}></i>
+                            <h5 className="text-dark fw-bold">No se encontraron resultados</h5>
+                            <p className="text-secondary">No hay clientes que coincidan con la búsqueda "{busqueda}".</p>
+                        </div>
+                    </Col>
                 ) : (
-                    
-                    clientes.map((cliente) => {
+                    clientesFiltrados.map((cliente) => {
                         const isActivo = cliente.id % 5 !== 0;
 
                         return (
