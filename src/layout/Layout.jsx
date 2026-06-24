@@ -1,10 +1,11 @@
-import Header from './Header';
+import Header from './Header'; 
 import Footer from './Footer'; 
 import { Outlet } from 'react-router-dom';
+import ThemeToggle from '../common/CambioTema'; 
 
 const Layout = () => {
     return (
-        <div className="min-vh-100 d-flex flex-column bg-light" style={{ backgroundColor: '#f8f9fa' }}>
+        <div className="min-vh-100 d-flex flex-column" style={{ backgroundColor: 'var(--bs-body-bg)' }}>
             <Header />
             
             <main className="flex-grow-1">
@@ -12,6 +13,7 @@ const Layout = () => {
             </main>
 
             <Footer />
+            <ThemeToggle />
         </div>
     );
 };
