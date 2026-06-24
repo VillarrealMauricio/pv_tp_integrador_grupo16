@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Alert, Row, Col, Card, Badge, Button, Placeholder, Form, InputGroup, Toast, ToastContainer } from 'react-bootstrap';
+import { Container, Alert, Row, Col, Card, Badge, Button, Placeholder, Form, InputGroup } from 'react-bootstrap';
 import '../css/clientes.css';
 import FormularioAltaCliente from '../common/FormularioAltaCliente';
 
@@ -8,9 +8,7 @@ const ListaClientes = () => {
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState(null);
     const [busqueda, setBusqueda] = useState('');     
-
     const [showModalAlta, setShowModalAlta] = useState(false);
-    const [notificacion, setNotificacion] = useState({ show: false, mensaje: '', variante: 'success' });
 
     useEffect(() => {
         const fetchClientes = async () => {
@@ -32,7 +30,7 @@ const ListaClientes = () => {
     }, []);
 
     const clientesFiltrados = clientes.filter((cliente) => {
-        if (!cliente) return false; 
+        if (!cliente) return false;
         const termino = busqueda.toLowerCase();
         const apellido = cliente?.name?.lastname?.toLowerCase() || '';
         const ciudad = cliente?.address?.city?.toLowerCase() || '';
@@ -43,15 +41,13 @@ const ListaClientes = () => {
         const proximoId = clientes.length > 0 
             ? Math.max(...clientes.map(c => Number(c?.id) || 0)) + 1 
             : 1;
-
-        setNotificacion({ show: true, mensaje: `¡Cliente registrado con éxito! ID asignado: #${proximoId}`, variante: 'success' });
         
         setClientes([{ ...payloadCliente, id: proximoId }, ...clientes]); 
         setShowModalAlta(false);
     };
 
     const handleAltaError = (mensajeError) => {
-        setNotificacion({ show: true, mensaje: mensajeError, variante: 'danger' });
+        console.error("Error al dar de alta:", mensajeError);
     };
 
     if (error) {
@@ -68,21 +64,6 @@ const ListaClientes = () => {
     return (
         <Container fluid className="py-4 px-4 position-relative">
             
-            <ToastContainer position="top-end" className="p-4" style={{ zIndex: 1055 }}>
-                <Toast show={notificacion.show} onClose={() => setNotificacion({ ...notificacion, show: false })} delay={5000} autohide bg={notificacion.variante}>
-                    <Toast.Header closeButton={false} className="d-flex justify-content-between">
-                        <strong className="me-auto text-dark">
-                            <i className={`fas ${notificacion.variante === 'success' ? 'fa-check-circle text-success' : 'fa-exclamation-triangle text-danger'} me-2`}></i>
-                            Aviso del Sistema
-                        </strong>
-                        <button type="button" className="btn-close" onClick={() => setNotificacion({ ...notificacion, show: false })}></button>
-                    </Toast.Header>
-                    <Toast.Body className="text-white fw-medium">
-                        {notificacion.mensaje}
-                    </Toast.Body>
-                </Toast>
-            </ToastContainer>
-
             <Row className="align-items-center mb-4 gy-3">
                 <Col xs={12} lg={3}>
                     <h2 className="fw-bold text-dark mb-0">Directorio</h2>
@@ -138,16 +119,24 @@ const ListaClientes = () => {
                         </div>
                     </Col>
                 ) : (
-                    clientesFiltrados.map((cliente) => {
-                        const isActivo = (cliente?.id || 0) % 5 !== 0;
+                    clientesFiltrados.map((cliente, index) => {
                         const nombre = cliente?.name?.firstname || 'N/A';
                         const apellido = cliente?.name?.lastname || '';
                         const email = cliente?.email || 'Sin correo';
                         const city = cliente?.address?.city || 'No especificada';
 
+                        const neonColors = [
+                            '#00f2fe', '#a18cd1', '#ff0844', '#f5576c', 
+                            '#43e97b', '#fa709a', '#fee140', '#00c6ff'
+                        ];
+                        const colorAsignado = neonColors[index % neonColors.length];
+
                         return (
                             <Col key={`cliente-${cliente?.id || Math.random()}`}>
-                                <Card className="h-100 rounded-4 shadow-sm cliente-card">
+                                <Card 
+                                    className="h-100 rounded-4 shadow-sm cliente-card"
+                                    style={{ '--neon-color': colorAsignado }}
+                                >
                                     <Card.Body className="p-4 d-flex flex-column position-relative">
                                         <div className="d-flex justify-content-between align-items-start mb-3">
                                             <div className="rounded-circle d-flex justify-content-center align-items-center border cliente-avatar" style={{ width: '48px', height: '48px' }}>
@@ -155,9 +144,11 @@ const ListaClientes = () => {
                                             </div>
                                             <Badge bg="light" text="secondary" className="fw-bold rounded-pill border">#{cliente?.id || '?'}</Badge>
                                         </div>
+                                        
                                         <h5 className="fw-bold text-dark text-capitalize mb-3 tracking-tight">
                                             {nombre} {apellido}
                                         </h5>
+                                        
                                         <div className="d-flex flex-column gap-2 mb-4 mt-auto">
                                             <div className="d-flex align-items-center text-secondary" style={{ fontSize: '0.9rem' }}>
                                                 <i className="fas fa-envelope text-primary cliente-data-icon me-2"></i>
@@ -168,6 +159,7 @@ const ListaClientes = () => {
                                                 <span className="fw-medium">{city}</span>
                                             </div>
                                         </div>
+                                        
                                         <Button variant="light" className="w-100 rounded-pill fw-semibold btn-ficha-custom mt-auto shadow-sm">
                                             Ver Ficha Completa
                                         </Button>
