@@ -160,12 +160,7 @@ const ListaClientes = () => {
                                                 <span className="fw-medium">{city}</span>
                                             </div>
                                         </div>
-<<<<<<< HEAD
-                                        
-                                        <Button variant="light" className="w-100 rounded-pill fw-semibold btn-ficha-custom mt-auto shadow-sm">
-=======
                                         <Button as={Link} to={`/clientes/${cliente?.id}`} variant="light" className="w-100 rounded-pill fw-semibold btn-ficha-custom mt-auto shadow-sm">
->>>>>>> 32fd29295b50b8d2b2234e77e0a63be82da37416
                                             Ver Ficha Completa
                                         </Button>
                                     </Card.Body>
