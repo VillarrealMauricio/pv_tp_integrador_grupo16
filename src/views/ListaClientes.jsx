@@ -12,7 +12,6 @@ const ListaClientes = () => {
 
     const [showModalAlta, setShowModalAlta] = useState(false);
 
-    // 1. TU MODIFICACIÓN: Estado para el mensaje de éxito visual
     const [feedbackExito, setFeedbackExito] = useState(null);
 
     useEffect(() => {
@@ -58,13 +57,11 @@ const ListaClientes = () => {
 
         setShowModalAlta(false);
 
-        // 2. TU MODIFICACIÓN (Feedback con ID de la API): Notificamos al administrador
-        // Usamos nuevoId (el de internet) para cumplir el requerimiento de la cátedra
+      
         setFeedbackExito(
             `¡Cliente creado con éxito! ID remoto asignado por FakeStoreAPI: #${nuevoId}. Nombre: ${payloadCliente.name.firstname} ${payloadCliente.name.lastname}`
         );
 
-        // 3. TU MODIFICACIÓN (Desmontado Temporal): Desaparece a los 5 segundos solo
         setTimeout(() => {
             setFeedbackExito(null);
         }, 5000);
@@ -88,7 +85,7 @@ const ListaClientes = () => {
     return (
         <Container fluid className="py-4 px-4 position-relative">
             
-            {/* 4. TU MODIFICACIÓN: Inyectamos el Alert de éxito arriba de todo en el diseño */}
+            {/* Inyectamos el Alert de éxito arriba de todo en el diseño */}
             {feedbackExito && (
                 <Alert variant="success" className="mb-4 shadow-sm border-0 border-start border-success border-4 rounded-3">
                     <div className="d-flex align-items-center">
