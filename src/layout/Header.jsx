@@ -13,10 +13,6 @@ const Header = () => {
     ]);
 
     const noLeidas = notificaciones.filter(n => !n.leida).length;
-<<<<<<< HEAD
-
-=======
->>>>>>> 93024991a62491cb4bd65e6782ea998912aaa526
     const manejarAperturaNotificaciones = (isOpen) => {
         if (isOpen && noLeidas > 0) {
             setNotificaciones(notificaciones.map(n => ({ ...n, leida: true })));
@@ -33,7 +29,7 @@ const Header = () => {
                             src={logoGrafico} 
                             alt="Logo Administrador" 
                             className="img-fluid" 
-                            style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'scale(3.5)' }} 
+                            style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'scale(4.0)' }} 
                         />
                     </div>
                     <span className="fw-bold fs-4 text-dark tracking-tight">
@@ -56,11 +52,7 @@ const Header = () => {
 
                     <div className="d-flex align-items-center gap-3 justify-content-center">
                         
-<<<<<<< HEAD
-                        {/* Desplegable de Campanita*/}
-=======
                         {/*Desplegable de la campanita */}
->>>>>>> 93024991a62491cb4bd65e6782ea998912aaa526
                         <Dropdown align="end" onToggle={manejarAperturaNotificaciones}>
                             <Dropdown.Toggle as="div" className="position-relative d-flex align-items-center justify-content-center text-secondary mx-1 icon-hover" style={{ cursor: 'pointer' }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
@@ -106,11 +98,7 @@ const Header = () => {
 
                         <div className="vr text-secondary mx-1 d-none d-lg-block opacity-25"></div>
 
-<<<<<<< HEAD
-                        {/* Desssplegable de Perfil */}
-=======
                             {/* Dessplagable de Perfil */}
->>>>>>> 93024991a62491cb4bd65e6782ea998912aaa526
                         <Dropdown align="end">
                             <Dropdown.Toggle as="div" className="d-flex align-items-center gap-3" style={{ cursor: 'pointer' }}>
                                 
@@ -119,11 +107,7 @@ const Header = () => {
                                         Usuario Temporal
                                     </div>
                                     <Badge bg="primary" bg-opacity="10" className="fw-medium text-uppercase px-2" style={{ backgroundColor: '#e0f2fe', color: '#0369a1' }}>
-<<<<<<< HEAD
-                                        ROL
-=======
                                         Rol
->>>>>>> 93024991a62491cb4bd65e6782ea998912aaa526
                                     </Badge>
                                 </div>
 

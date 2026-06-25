@@ -1,3 +1,42 @@
+body {
+    background-color: #f4f6f9 !important;
+}
+
+.card,
+.cliente-card {
+    background-color: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+.search-container {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.btn-ficha-custom {
+    background-color: #f8f9fa !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.btn-ficha-custom:hover {
+    background-color: #e9ecef !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+.btn-ficha-custom {
+    background-color: #f8f9fa !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
+    color: #495057 !important;
+    transition: all 0.3s ease;
+}
+
+.btn-ficha-custom:hover {
+    background-color: #0369a1 !important;
+    color: #ffffff !important; 
+    border-color: #0369a1 !important;
+    box-shadow: 0 4px 12px rgba(3, 105, 161, 0.25) !important; 
+}
 .dashboard-card {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
@@ -122,4 +161,78 @@
 
 [data-bs-theme="dark"] header .text-dark {
     color: #e9ecef !important;
+}
+
+/*arreglos del modo dark */
+
+[data-bs-theme="dark"] body {
+    background-color: #0f1115 !important;
+}
+
+[data-bs-theme="dark"] .card,
+[data-bs-theme="dark"] .cliente-card {
+    background-color: #1e2126 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-bs-theme="dark"] .search-container {
+    background-color: #1e2126 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+[data-bs-theme="dark"] .search-input,
+[data-bs-theme="dark"] .search-input.text-dark {
+    color: #f8f9fa !important; 
+}
+
+[data-bs-theme="dark"] .search-input::placeholder {
+    color: #8a939b !important; 
+}
+
+[data-bs-theme="dark"] .btn-ficha-custom {
+    background-color: #2b3035 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #e9ecef !important;
+}
+
+[data-bs-theme="dark"] .btn-ficha-custom:hover {
+    background-color: #343a40 !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+}
+
+[data-bs-theme="dark"] .text-secondary {
+    color: #aeb5bc !important;
+}
+
+[data-bs-theme="dark"] .cliente-card .badge.bg-light {
+    background-color: #2b3035 !important;
+    color: #ced4da !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.btn-volver {
+    background-color: #ffffff !important;
+    color: #495057 !important;
+    border: 1px solid rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease;
+}
+
+.btn-volver:hover {
+    background-color: #f8f9fa !important;
+    color: #0369a1 !important; 
+    border-color: #0369a1 !important;
+}
+
+[data-bs-theme="dark"] .btn-volver {
+    background-color: #1e2126 !important;
+    color: #aeb5bc !important; 
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-bs-theme="dark"] .btn-volver:hover {
+    background-color: #2b3035 !important; 
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
 }

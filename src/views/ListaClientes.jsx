@@ -1,14 +1,15 @@
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Container, Alert, Row, Col, Card, Badge, Button, Placeholder, Form, InputGroup } from 'react-bootstrap';
 import '../css/clientes.css';
 import FormularioAltaCliente from '../common/FormularioAltaCliente';
+import { Link } from 'react-router-dom';
 
 const ListaClientes = () => {
     const [clientes, setClientes] = useState([]); 
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState(null);
     const [busqueda, setBusqueda] = useState('');     
+
     const [showModalAlta, setShowModalAlta] = useState(false);
 
     useEffect(() => {
@@ -18,8 +19,12 @@ const ListaClientes = () => {
                 if (!response.ok) throw new Error('Error al conectar con el servidor de la API');
                 
                 setTimeout(async () => {
-                    const data = await response.json();
-                    setClientes(data);
+                    const dataApi = await response.json();
+                    
+                    const clientesLocales = JSON.parse(localStorage.getItem('mis_clientes_nuevos')) || [];
+                    
+                    setClientes([...clientesLocales, ...dataApi]);
+                    
                     setLoading(false);
                 }, 1000);
             } catch (err) {
@@ -42,8 +47,14 @@ const ListaClientes = () => {
         const proximoId = clientes.length > 0 
             ? Math.max(...clientes.map(c => Number(c?.id) || 0)) + 1 
             : 1;
+
+        const nuevoClienteCompleto = { ...payloadCliente, id: proximoId };
         
-        setClientes([{ ...payloadCliente, id: proximoId }, ...clientes]); 
+        setClientes([nuevoClienteCompleto, ...clientes]); 
+
+        const clientesLocales = JSON.parse(localStorage.getItem('mis_clientes_nuevos')) || [];
+        localStorage.setItem('mis_clientes_nuevos', JSON.stringify([nuevoClienteCompleto, ...clientesLocales]));
+
         setShowModalAlta(false);
     };
 
@@ -113,10 +124,13 @@ const ListaClientes = () => {
                         </Col>
                     ))
                 ) : clientesFiltrados.length === 0 ? (
-                    <Col xs={12}>
+                    <Col xs={12} className="w-100 d-flex justify-content-center align-items-center mt-4">
                         <div className="text-center py-5">
-                            <i className="fas fa-search-minus text-secondary mb-3" style={{ fontSize: '3rem', opacity: 0.5 }}></i>
-                            <h5 className="text-dark fw-bold">No se encontraron resultados</h5>
+                            <i className="fas fa-search-minus text-secondary mb-4" style={{ fontSize: '4rem', opacity: 0.3 }}></i>
+                            <h4 className="text-dark fw-bold">No se encontraron resultados</h4>
+                            <p className="text-secondary" style={{ fontSize: '1.1rem' }}>
+                                No hay clientes que coincidan con la búsqueda "{busqueda}"
+                            </p>
                         </div>
                     </Col>
                 ) : (
@@ -160,7 +174,12 @@ const ListaClientes = () => {
                                                 <span className="fw-medium">{city}</span>
                                             </div>
                                         </div>
-                                        <Button as={Link} to={`/clientes/${cliente?.id}`} variant="light" className="w-100 rounded-pill fw-semibold btn-ficha-custom mt-auto shadow-sm">
+                                        
+                                        <Button 
+                                            as={Link} 
+                                            to={`/clientes/${cliente?.id}`} 
+                                            variant="light" 
+                                            className="w-100 rounded-pill fw-semibold btn-ficha-custom mt-auto shadow-sm">
                                             Ver Ficha Completa
                                         </Button>
                                     </Card.Body>
