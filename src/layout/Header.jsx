@@ -29,7 +29,7 @@ const Header = () => {
                             src={logoGrafico} 
                             alt="Logo Administrador" 
                             className="img-fluid" 
-                            style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'scale(3.5)' }} 
+                            style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'scale(4.0)' }} 
                         />
                     </div>
                     <span className="fw-bold fs-4 text-dark tracking-tight">
