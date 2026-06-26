@@ -51,16 +51,16 @@ const Footer = () => {
                         <Col xs={12} sm={6} md={3}>
                             <h6 className="fw-bold text-dark mb-2">Redes Sociales</h6>
                             <div className="d-flex gap-3 mt-2">
-                                <a href="#" className="text-secondary footer-link" style={{ fontSize: '1.2rem' }}>
+                                <a href="https://www.facebook.com" className="text-secondary footer-link" style={{ fontSize: '1.2rem' }}>
                                     <i className="fab fa-facebook"></i>
                                 </a>
-                                <a href="#" className="text-secondary footer-link" style={{ fontSize: '1.2rem' }}>
+                                <a href="https://www.instagram.com" className="text-secondary footer-link" style={{ fontSize: '1.2rem' }}>
                                     <i className="fab fa-instagram"></i>
                                 </a>
-                                <a href="#" className="text-secondary footer-link" style={{ fontSize: '1.2rem' }}>
+                                <a href="https://ar.linkedin.com" className="text-secondary footer-link" style={{ fontSize: '1.2rem' }}>
                                     <i className="fab fa-linkedin"></i>
                                 </a>
-                                <a href="#" className="text-secondary footer-link" style={{ fontSize: '1.2rem' }}>
+                                <a href="https://github.com/VillarrealMauricio/pv_tp_integrador_grupo16" className="text-secondary footer-link" style={{ fontSize: '1.2rem' }}>
                                     <i className="fab fa-github"></i>
                                 </a>
                             </div>
