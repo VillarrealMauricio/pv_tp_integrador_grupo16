@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Container, Alert, Row, Col, Card, Badge, Button, Placeholder, Form, InputGroup } from 'react-bootstrap';
 import '../css/clientes.css';
-import FormularioAltaCliente from '../common/FormularioAltaCliente';
+import FormularioAltaCliente from '../components/common/FormularioAltaCliente';
 import { Link } from 'react-router-dom';
 
 const ListaClientes = () => {
@@ -12,7 +12,6 @@ const ListaClientes = () => {
 
     const [showModalAlta, setShowModalAlta] = useState(false);
 
-    // 1. TU MODIFICACIÓN: Estado para el mensaje de éxito visual
     const [feedbackExito, setFeedbackExito] = useState(null);
 
     useEffect(() => {
@@ -44,7 +43,6 @@ const ListaClientes = () => {
     });
 
     const handleAltaExitosa = (nuevoId, payloadCliente) => {
-        // [Lógica existente de tus compañeros para calcular el ID local]
         const proximoId = clientes.length > 0 
             ? Math.max(...clientes.map(c => Number(c?.id) || 0)) + 1 
             : 1;
@@ -58,13 +56,10 @@ const ListaClientes = () => {
 
         setShowModalAlta(false);
 
-        // 2. TU MODIFICACIÓN (Feedback con ID de la API): Notificamos al administrador
-        // Usamos nuevoId (el de internet) para cumplir el requerimiento de la cátedra
         setFeedbackExito(
             `¡Cliente creado con éxito! ID remoto asignado por FakeStoreAPI: #${nuevoId}. Nombre: ${payloadCliente.name.firstname} ${payloadCliente.name.lastname}`
         );
 
-        // 3. TU MODIFICACIÓN (Desmontado Temporal): Desaparece a los 5 segundos solo
         setTimeout(() => {
             setFeedbackExito(null);
         }, 5000);
@@ -88,7 +83,6 @@ const ListaClientes = () => {
     return (
         <Container fluid className="py-4 px-4 position-relative">
             
-            {/* 4. TU MODIFICACIÓN: Inyectamos el Alert de éxito arriba de todo en el diseño */}
             {feedbackExito && (
                 <Alert variant="success" className="mb-4 shadow-sm border-0 border-start border-success border-4 rounded-3">
                     <div className="d-flex align-items-center">

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Navbar, Container, Nav, Badge, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import logoGrafico from '../assets/logo-grafico.png';
-import '../css/header.css'; 
+import logoGrafico from '../../assets/logo-grafico.png';
+import '../../css/header.css'; 
 
 const Header = () => {
     const [notificaciones, setNotificaciones] = useState([
