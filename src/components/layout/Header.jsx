@@ -1,10 +1,18 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Navbar, Container, Nav, Badge, Dropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import logoGrafico from '../../assets/logo-grafico.png';
-import '../../css/header.css'; 
+import { Link, useNavigate } from 'react-router-dom';
+import { AdminContext } from '../context/AdminContext';
+import logoGrafico from '../assets/logo-grafico.png';
+import '../css/header.css'; 
 
 const Header = () => {
+
+    const {admin, cerrarSesion } = useContext(AdminContext);
+    const navigate = useNavigate();
+
+    /*Prueba datos del admin
+    console.log("Datos del administrador actual:", admin);*/
+
     const [notificaciones, setNotificaciones] = useState([
         { id: 1, texto: "Franco subió un nuevo commit al repositorio (Módulo B).", tiempo: "Hace 5 min", leida: false, icono: "fa-code" },
         { id: 2, texto: "Alerta de sistema: Carga de CPU elevada (92%).", tiempo: "Hace 15 min", leida: false, icono: "fa-exclamation-triangle text-danger" },
@@ -18,6 +26,11 @@ const Header = () => {
             setNotificaciones(notificaciones.map(n => ({ ...n, leida: true })));
         }
     };
+
+    const logout = () => {
+        cerrarSesion();
+        navigate('/login');
+    }
 
     return (
         <Navbar expand="lg" className="header-glass py-3" sticky="top">
@@ -104,10 +117,10 @@ const Header = () => {
                                 
                                 <div className="text-end d-none d-sm-block select-none">
                                     <div className="text-dark fw-semibold" style={{ fontSize: '0.95rem' }}>
-                                        Usuario Temporal
+                                        {admin ? admin.nombre : "Invitado"}
                                     </div>
                                     <Badge bg="primary" bg-opacity="10" className="fw-medium text-uppercase px-2" style={{ backgroundColor: '#e0f2fe', color: '#0369a1' }}>
-                                        Rol
+                                        {admin ? admin.sector : "Sin Rol"}
                                     </Badge>
                                 </div>
 
@@ -128,7 +141,7 @@ const Header = () => {
                                     Ajustes
                                 </Dropdown.Item>
                                 <Dropdown.Divider className="my-1 opacity-50" />
-                                <Dropdown.Item className="py-2 px-3 text-danger fw-semibold" style={{ fontSize: '0.9rem' }}>
+                                <Dropdown.Item onClick={logout} className="py-2 px-3 text-danger fw-semibold" style={{ fontSize: '0.9rem' }}>
                                     Cerrar Sesión
                                 </Dropdown.Item>
                             </Dropdown.Menu>
