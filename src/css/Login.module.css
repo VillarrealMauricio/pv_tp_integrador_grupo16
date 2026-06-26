@@ -1,0 +1,35 @@
+.login {
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+}
+
+.mainLogin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid black;
+    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.15);
+    padding: 2rem;
+    margin: 6rem;
+}
+
+.imgLogin {
+    width: 20vw;
+}
+
+.tituloH5 {
+    margin-bottom: 8%;
+    font-weight: bold;
+}
+
+.credenciales {
+    margin-bottom: 2%;
+    font-weight: normal;
+}
+
+.botonLogin {
+    width: 100%;
+}
