@@ -1,9 +1,9 @@
 import { useState, useContext } from 'react';
 import { Navbar, Container, Nav, Badge, Dropdown } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { AdminContext } from '../context/AdminContext';
-import logoGrafico from '../assets/logo-grafico.png';
-import '../css/header.css'; 
+import { AdminContext } from '../../context/AdminContext';
+import logoGrafico from '../../assets/logo-grafico.png';
+import '../../css/header.css'; 
 
 const Header = () => {
 
