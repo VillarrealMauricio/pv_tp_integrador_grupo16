@@ -1,16 +1,36 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Card, Badge, Button, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Badge, Button, Spinner, Alert, Modal } from 'react-bootstrap';
 import { AdminContext } from '../context/AdminContext';
-import '../css/dashboard.css'; 
+import '../css/dashboard.css';
 
 const DetalleCliente = () => {
-    const { id } = useParams(); 
+    const { id } = useParams();
     const { admin } = useContext(AdminContext);
+    const navigate = useNavigate();
 
     const [cliente, setCliente] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showModalEliminar, setShowModalEliminar] = useState(false);
+
+    const handleEliminar = async () => {
+        try {
+            await fetch(`https://fakestoreapi.com/users/${cliente.id}`, {
+                method: 'DELETE'
+            });
+
+            // Si es cliente local, lo borramos del localStorage
+            const clientesLocales = JSON.parse(localStorage.getItem('mis_clientes_nuevos')) || [];
+            const filtrados = clientesLocales.filter(c => String(c.id) !== String(cliente.id));
+            localStorage.setItem('mis_clientes_nuevos', JSON.stringify(filtrados));
+
+            navigate('/clientes');
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
 
     useEffect(() => {
         const fetchCliente = async () => {
@@ -26,9 +46,9 @@ const DetalleCliente = () => {
 
                 const response = await fetch(`https://fakestoreapi.com/users/${id}`);
                 if (!response.ok) throw new Error('No se pudo obtener la ficha del cliente.');
-                
+
                 const data = await response.json();
-                
+
                 if (!data) throw new Error('El expediente solicitado no existe en el servidor externo.');
 
                 setCliente(data);
@@ -83,6 +103,16 @@ const DetalleCliente = () => {
                 <Button as={Link} to="/clientes" variant="light" className="rounded-pill fw-semibold shadow-sm border text-secondary px-4">
                     <i className="fas fa-arrow-left me-2"></i> Volver al Directorio
                 </Button>
+                {admin.sector === 'Gerencia' && (
+                    <Button
+                        onClick={() => setShowModalEliminar(true)}
+                        variant="danger"
+                        className="rounded-pill fw-semibold shadow-sm px-4">
+
+                        <i className="fa-solid fa-trash"></i>
+
+                    </Button>
+                )}
 
             </div>
 
@@ -93,7 +123,7 @@ const DetalleCliente = () => {
                     <div className="rounded-circle bg-white d-flex justify-content-center align-items-center shadow-lg" style={{ width: '100px', height: '100px', zIndex: 1 }}>
                         <i className="fas fa-user text-primary" style={{ fontSize: '3rem' }}></i>
                     </div>
-                    
+
                     <div className="text-center text-md-start" style={{ zIndex: 1 }}>
                         <div className="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mb-1">
                             <h2 className="fw-bold text-white text-capitalize mb-0">{firstname} {lastname}</h2>
@@ -115,7 +145,7 @@ const DetalleCliente = () => {
                                 </div>
                                 <h5 className="fw-bold text-dark mb-0">Contacto</h5>
                             </div>
-                            
+
                             <div className="d-flex flex-column gap-3">
                                 <div>
                                     <span className="d-block text-secondary fw-medium" style={{ fontSize: '0.85rem' }}>CORREO OFICIAL</span>
@@ -139,7 +169,7 @@ const DetalleCliente = () => {
                                 </div>
                                 <h5 className="fw-bold text-dark mb-0">Ubicación</h5>
                             </div>
-                            
+
                             <div className="d-flex flex-column gap-3">
                                 <div>
                                     <span className="d-block text-secondary fw-medium" style={{ fontSize: '0.85rem' }}>DOMICILIO</span>
@@ -163,7 +193,7 @@ const DetalleCliente = () => {
                                 </div>
                                 <h5 className="fw-bold text-dark mb-0">Credenciales</h5>
                             </div>
-                            
+
                             <div className="d-flex flex-column gap-3">
                                 <div>
                                     <span className="d-block text-secondary fw-medium" style={{ fontSize: '0.85rem' }}>USUARIO DE RED</span>
@@ -185,6 +215,30 @@ const DetalleCliente = () => {
                 </Col>
 
             </Row>
+
+            <Modal show={showModalEliminar} onHide={() => setShowModalEliminar(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title className="fw-bold text-dark">
+                        <i className="fa-solid fa-triangle-exclamation text-danger me-2"></i>
+                        Confirmar eliminación
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="text-secondary">
+                    ¿Estás seguro que querés eliminar a <strong className="text-dark">{firstname} {lastname}</strong>? Esta acción no se puede deshacer.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="light" className="rounded-pill fw-semibold" onClick={() => setShowModalEliminar(false)}>
+                        Cancelar
+                    </Button>
+                    <Button variant="danger" className="rounded-pill fw-semibold" onClick={() => {
+                        setShowModalEliminar(false);
+                        handleEliminar();
+                    }}>
+                        <i className="fa-solid fa-trash me-2"></i> Eliminar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </Container>
     );
 };
