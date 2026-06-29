@@ -8,12 +8,12 @@ import { Login } from './views/Login';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route path='login' element={<Login />} />
-        <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="dashboard" element={<DashboardPrincipal />} />
-        <Route path="clientes" element={<ListaClientes />} />
-        <Route path="clientes/:id" element={<DetalleCliente/>} />  
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route element={<Layout />}>
+        <Route path="/dashboard" element={<DashboardPrincipal />} />
+        <Route path="/clientes" element={<ListaClientes />} />
+        <Route path="/clientes/:id" element={<DetalleCliente/>} />  
       </Route>
     </Routes>
   );

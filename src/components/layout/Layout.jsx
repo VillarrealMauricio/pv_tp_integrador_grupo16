@@ -1,19 +1,18 @@
-import Header from './Header'; 
-import Footer from './Footer'; 
 import { Outlet } from 'react-router-dom';
-import ThemeToggle from '../common/CambioTema'; 
+import Header from '../layout/Header';
+import Footer from '../layout/Footer'; 
 
 const Layout = () => {
     return (
-        <div className="min-vh-100 d-flex flex-column" style={{ backgroundColor: 'var(--bs-body-bg)' }}>
-            <Header />
+        <div className="d-flex flex-column min-vh-100 bg-light" style={{ backgroundColor: '#f8f9fa' }}>
             
-            <main className="flex-grow-1">
-                <Outlet /> 
+            <Header />
+            <main className="flex-grow-1 position-relative">
+                <Outlet />
             </main>
 
             <Footer />
-            <ThemeToggle />
+            
         </div>
     );
 };

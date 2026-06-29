@@ -11,7 +11,6 @@ const ListaClientes = () => {
     const [busqueda, setBusqueda] = useState('');     
 
     const [showModalAlta, setShowModalAlta] = useState(false);
-
     const [feedbackExito, setFeedbackExito] = useState(null);
 
     useEffect(() => {
@@ -23,7 +22,14 @@ const ListaClientes = () => {
                 setTimeout(async () => {
                     const dataApi = await response.json();
                     const clientesLocales = JSON.parse(localStorage.getItem('mis_clientes_nuevos')) || [];
-                    setClientes([...clientesLocales, ...dataApi]);
+                    const clientesEliminados = JSON.parse(localStorage.getItem('clientes_eliminados')) || [];
+                    
+                    let todosLosClientes = [...clientesLocales, ...dataApi];
+                    todosLosClientes = todosLosClientes.filter(
+                        cliente => !clientesEliminados.includes(String(cliente.id))
+                    );
+                    
+                    setClientes(todosLosClientes);
                     setLoading(false);
                 }, 1000);
             } catch (err) {
@@ -81,7 +87,7 @@ const ListaClientes = () => {
     }
 
     return (
-        <Container fluid className="py-4 px-4 position-relative">
+        <Container className="py-4 position-relative">
             
             {feedbackExito && (
                 <Alert variant="success" className="mb-4 shadow-sm border-0 border-start border-success border-4 rounded-3">

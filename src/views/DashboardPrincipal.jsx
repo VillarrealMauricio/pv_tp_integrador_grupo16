@@ -37,13 +37,17 @@ const DashboardPrincipal = () => {
     const tareasPendientesCount = tareas.filter(t => !t.realizada).length;
     const alertasActivasCount = alertas.length;
 
-    useEffect(() => {
+useEffect(() => {
         const fetchMetricas = async () => {
             try {
                 const response = await fetch('https://fakestoreapi.com/users');
                 if (response.ok) {
-                    const data = await response.json();
-                    setTotalClientes(data.length);
+                    const dataApi = await response.json();
+                    const clientesLocales = JSON.parse(localStorage.getItem('mis_clientes_nuevos')) || [];
+                    const clientesEliminados = JSON.parse(localStorage.getItem('clientes_eliminados')) || [];
+                    const totalReal = (dataApi.length + clientesLocales.length) - clientesEliminados.length;
+                    
+                    setTotalClientes(totalReal);
                 }
             } catch (error) {
                 console.error("Error cargando métricas:", error);
@@ -52,7 +56,7 @@ const DashboardPrincipal = () => {
             }
         };
         fetchMetricas();
-    }, []);
+}, []);
 
     const toggleTarea = (id) => {
         setTareas(tareas.map(t => t.id === id ? { ...t, realizada: !t.realizada } : t));
