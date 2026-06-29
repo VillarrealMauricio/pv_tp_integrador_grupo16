@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Container, Alert, Row, Col, Card, Badge, Button, Placeholder, Form, InputGroup } from 'react-bootstrap';
+import { Container, Alert, Row, Col, Button } from 'react-bootstrap';
 import '../css/clientes.css';
 import FormularioAltaCliente from '../components/common/FormularioAltaCliente';
-import { Link } from 'react-router-dom';
+import BuscadorClientes from '../components/clientes/BuscadorClientes';
+import ClienteSkeleton from '../components/clientes/ClienteSkeleton';
+import ClienteCard from '../components/clientes/ClienteCard';
 
 const ListaClientes = () => {
     const [clientes, setClientes] = useState([]); 
@@ -12,6 +14,10 @@ const ListaClientes = () => {
 
     const [showModalAlta, setShowModalAlta] = useState(false);
     const [feedbackExito, setFeedbackExito] = useState(null);
+    const neonColors = [
+        '#00f2fe', '#a18cd1', '#ff0844', '#f5576c', 
+        '#43e97b', '#fa709a', '#fee140', '#00c6ff'
+    ];
 
     useEffect(() => {
         const fetchClientes = async () => {
@@ -25,6 +31,7 @@ const ListaClientes = () => {
                     const clientesEliminados = JSON.parse(localStorage.getItem('clientes_eliminados')) || [];
                     
                     let todosLosClientes = [...clientesLocales, ...dataApi];
+                    
                     todosLosClientes = todosLosClientes.filter(
                         cliente => !clientesEliminados.includes(String(cliente.id))
                     );
@@ -66,13 +73,7 @@ const ListaClientes = () => {
             `¡Cliente creado con éxito! ID remoto asignado por FakeStoreAPI: #${nuevoId}. Nombre: ${payloadCliente.name.firstname} ${payloadCliente.name.lastname}`
         );
 
-        setTimeout(() => {
-            setFeedbackExito(null);
-        }, 5000);
-    };
-
-    const handleAltaError = (mensajeError) => {
-        console.error("Error al dar de alta:", mensajeError);
+        setTimeout(() => setFeedbackExito(null), 5000);
     };
 
     if (error) {
@@ -105,17 +106,11 @@ const ListaClientes = () => {
                 </Col>
                 
                 <Col xs={12} md={7} lg={6} className="mx-auto">
-                    <InputGroup className="search-container shadow-sm py-1">
-                        <InputGroup.Text className="bg-transparent border-0 text-primary ps-4">
-                            <i className="fas fa-search opacity-75"></i>
-                        </InputGroup.Text>
-                        <Form.Control type="text" placeholder="Buscar por apellido o ciudad..." className="border-0 shadow-none py-2 search-input text-dark fw-medium" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} disabled={loading} />
-                        {busqueda && (
-                            <Button variant="link" className="border-0 text-secondary pe-4 text-decoration-none btn-clear-search" onClick={() => setBusqueda('')}>
-                                <i className="fas fa-times-circle fs-5"></i>
-                            </Button>
-                        )}
-                    </InputGroup>
+                    <BuscadorClientes 
+                        busqueda={busqueda} 
+                        setBusqueda={setBusqueda} 
+                        disabled={loading} 
+                    />
                 </Col>
 
                 <Col xs={12} md={5} lg={3} className="text-lg-end d-flex justify-content-lg-end gap-2">
@@ -128,21 +123,8 @@ const ListaClientes = () => {
             <Row xs={1} md={2} lg={3} xl={4} className="g-4">
                 {loading ? (
                     Array.from({ length: 8 }).map((_, index) => (
-                        <Col key={index}>
-                            <Card className="h-100 rounded-4 shadow-sm border-light-subtle">
-                                <Card.Body className="p-4 d-flex flex-column">
-                                    <div className="d-flex justify-content-between align-items-start mb-3">
-                                        <Placeholder as="div" animation="glow"><Placeholder xs={12} className="rounded-circle" style={{ width: '48px', height: '48px' }} /></Placeholder>
-                                        <Placeholder as="div" animation="glow" className="w-25"><Placeholder xs={12} className="rounded-pill p-2" /></Placeholder>
-                                    </div>
-                                    <Placeholder as="h5" animation="glow" className="mb-3"><Placeholder xs={8} className="rounded" /></Placeholder>
-                                    <div className="d-flex flex-column gap-3 mb-4 mt-auto">
-                                        <Placeholder as="div" animation="glow"><Placeholder xs={9} className="rounded" /></Placeholder>
-                                        <Placeholder as="div" animation="glow"><Placeholder xs={6} className="rounded" /></Placeholder>
-                                    </div>
-                                    <Placeholder.Button variant="light" className="w-100 rounded-pill mt-auto" aria-hidden="true" />
-                                </Card.Body>
-                            </Card>
+                        <Col key={`skeleton-${index}`}>
+                            <ClienteSkeleton />
                         </Col>
                     ))
                 ) : clientesFiltrados.length === 0 ? (
@@ -156,59 +138,14 @@ const ListaClientes = () => {
                         </div>
                     </Col>
                 ) : (
-                    clientesFiltrados.map((cliente, index) => {
-                        const nombre = cliente?.name?.firstname || 'N/A';
-                        const apellido = cliente?.name?.lastname || '';
-                        const email = cliente?.email || 'Sin correo';
-                        const city = cliente?.address?.city || 'No especificada';
-
-                        const neonColors = [
-                            '#00f2fe', '#a18cd1', '#ff0844', '#f5576c', 
-                            '#43e97b', '#fa709a', '#fee140', '#00c6ff'
-                        ];
-                        const colorAsignado = neonColors[index % neonColors.length];
-
-                        return (
-                            <Col key={`cliente-${cliente?.id || Math.random()}`}>
-                                <Card 
-                                    className="h-100 rounded-4 shadow-sm cliente-card"
-                                    style={{ '--neon-color': colorAsignado }}
-                                >
-                                    <Card.Body className="p-4 d-flex flex-column position-relative">
-                                        <div className="d-flex justify-content-between align-items-start mb-3">
-                                            <div className="rounded-circle d-flex justify-content-center align-items-center border cliente-avatar" style={{ width: '48px', height: '48px' }}>
-                                                <i className="fas fa-user text-secondary fs-5"></i>
-                                            </div>
-                                            <Badge bg="light" text="secondary" className="fw-bold rounded-pill border">#{cliente?.id || '?'}</Badge>
-                                        </div>
-                                        
-                                        <h5 className="fw-bold text-dark text-capitalize mb-3 tracking-tight">
-                                            {nombre} {apellido}
-                                        </h5>
-                                        
-                                        <div className="d-flex flex-column gap-2 mb-4 mt-auto">
-                                            <div className="d-flex align-items-center text-secondary" style={{ fontSize: '0.9rem' }}>
-                                                <i className="fas fa-envelope text-primary cliente-data-icon me-2"></i>
-                                                <span className="text-truncate fw-medium">{email}</span>
-                                            </div>
-                                            <div className="d-flex align-items-center text-secondary text-capitalize" style={{ fontSize: '0.9rem' }}>
-                                                <i className="fas fa-map-marker-alt text-danger cliente-data-icon me-2"></i>
-                                                <span className="fw-medium">{city}</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <Button 
-                                            as={Link} 
-                                            to={`/clientes/${cliente?.id}`} 
-                                            variant="light" 
-                                            className="w-100 rounded-pill fw-semibold btn-ficha-custom mt-auto shadow-sm">
-                                            Ver Ficha Completa
-                                        </Button>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        );
-                    })
+                    clientesFiltrados.map((cliente, index) => (
+                        <Col key={`cliente-${cliente?.id || Math.random()}`}>
+                            <ClienteCard 
+                                cliente={cliente} 
+                                colorAsignado={neonColors[index % neonColors.length]} 
+                            />
+                        </Col>
+                    ))
                 )}
             </Row>
 
@@ -216,7 +153,7 @@ const ListaClientes = () => {
                 show={showModalAlta} 
                 onHide={() => setShowModalAlta(false)} 
                 onSuccess={handleAltaExitosa}
-                onError={handleAltaError}
+                onError={(msg) => console.error(msg)}
             />
 
         </Container>
