@@ -6,6 +6,7 @@ import DetalleCliente from './views/DetalleCliente';
 import { Login } from './views/Login';
 import PerfilAdmin from './views/PerfilAdmin';
 import Configuracion from './views/Configuracion';
+import RutaProtegida from './components/common/RutaProtegida';
 
 function App() {
   return (
@@ -13,12 +14,14 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<Navigate to="/login" replace />} />
 
-      <Route element={<Layout />}>
-        <Route path="/dashboard" element={<DashboardPrincipal />} />
-        <Route path="/clientes" element={<ListaClientes />} />
-        <Route path="/clientes/:id" element={<DetalleCliente/>} />  
-        <Route path="/perfil" element={<PerfilAdmin />} />
-        <Route path="/configuracion" element={<Configuracion />} />
+      <Route element={<RutaProtegida />}>
+        <Route element={<Layout />}>
+          <Route path="/dashboard" element={<DashboardPrincipal />} />
+          <Route path="/clientes" element={<ListaClientes />} />
+          <Route path="/clientes/:id" element={<DetalleCliente/>} />
+          <Route path="/perfil" element={<PerfilAdmin />} />
+          <Route path="/configuracion" element={<Configuracion />} />
+        </Route>
       </Route>
     </Routes>
   );
