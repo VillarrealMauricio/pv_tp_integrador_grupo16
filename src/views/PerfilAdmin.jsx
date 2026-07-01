@@ -5,29 +5,26 @@ import { AdminContext } from '../context/AdminContext';
 const PerfilAdmin = () => {
     const { admin } = useContext(AdminContext);
 
-    // Fallbacks por si el usuario entra directo sin loguearse
     const nombreAdmin = admin?.nombre || "Usuario Invitado";
     const sectorAdmin = admin?.sector || "Gerencia";
-
-    // LÓGICA DINÁMICA: Determinamos los privilegios según el sector del usuario
     const getPrivilegios = (sector) => {
         const sectorMinuscula = (sector || '').toLowerCase();
         
         if (sectorMinuscula.includes('soporte')) {
             return { 
-                color: 'info', // Celeste
+                color: 'info', 
                 icono: 'fas fa-tools', 
                 texto: 'Soporte Técnico (Acceso Nivel 2)' 
             };
         } else if (sectorMinuscula.includes('gerencia')) {
             return { 
-                color: 'success', // Verde
+                color: 'success', 
                 icono: 'fas fa-shield-alt', 
                 texto: 'Control Total (Root / Admin)' 
             };
         } else {
             return { 
-                color: 'secondary', // Gris
+                color: 'secondary', 
                 icono: 'fas fa-user-lock', 
                 texto: 'Acceso Estándar (Solo Lectura)' 
             };
@@ -38,7 +35,6 @@ const PerfilAdmin = () => {
 
     return (
         <Container className="py-4 px-4">
-            {/* Encabezado de la Sección */}
             <div className="mb-4 d-flex align-items-center gap-3">
                 <div className="bg-primary bg-opacity-10 p-3 rounded-circle d-flex align-items-center justify-content-center" style={{ width: '50px', height: '50px', color: '#0369a1' }}>
                     <i className="fas fa-user-shield fs-4"></i>
@@ -50,7 +46,6 @@ const PerfilAdmin = () => {
             </div>
 
             <Row className="g-4">
-                {/* COLUMNA IZQUIERDA: Tarjeta de Identidad y Datos Fijos */}
                 <Col xs={12} lg={5}>
                     <Card className="border-0 shadow-sm rounded-4 overflow-hidden mb-4 h-100">
                         <div style={{ height: '140px', background: 'linear-gradient(45deg, #0369a1, #0ea5e9)' }} className="position-relative">
@@ -89,7 +84,6 @@ const PerfilAdmin = () => {
                                     </div>
                                 </ListGroup.Item>
 
-                                {/* ACÁ ESTÁ EL CAMBIO: El bloque de privilegios ahora es 100% dinámico */}
                                 <ListGroup.Item className="py-3 bg-transparent border-0 d-flex align-items-center gap-3">
                                     <div className={`bg-${privilegios.color} bg-opacity-10 text-${privilegios.color} rounded-circle d-flex align-items-center justify-content-center border border-${privilegios.color} border-opacity-25`} style={{ width: '38px', height: '38px' }}>
                                         <i className="fas fa-key"></i>
@@ -106,7 +100,6 @@ const PerfilAdmin = () => {
                     </Card>
                 </Col>
 
-                {/* COLUMNA DERECHA: Estadísticas de Rendimiento y Proyectos */}
                 <Col xs={12} lg={7}>
                     <Card className="border-0 shadow-sm rounded-4 overflow-hidden mb-4">
                         <Card.Header className="bg-white border-bottom-0 pt-4 px-4">

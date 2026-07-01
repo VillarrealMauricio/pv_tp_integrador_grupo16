@@ -1,11 +1,21 @@
+import { useState, useEffect } from 'react';
 import { Container, Card, Form, ListGroup, Button, Badge, Row, Col } from 'react-bootstrap';
 
 const Configuracion = () => {
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setIsDarkMode(savedTheme === 'dark');
+    }, []);
+
     const toggleTheme = () => {
-        const currentTheme = document.documentElement.getAttribute('data-bs-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-bs-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
+        const newMode = !isDarkMode; 
+        setIsDarkMode(newMode);    
+        
+        const newThemeString = newMode ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', newThemeString);
+        localStorage.setItem('theme', newThemeString);
     };
 
     return (
@@ -41,7 +51,13 @@ const Configuracion = () => {
                                                 <p className="text-secondary mb-0 small">Cambia la apariencia del panel para reducir la fatiga visual.</p>
                                             </div>
                                         </div>
-                                        <Form.Check type="switch" id="theme-switch" className="fs-4" onChange={toggleTheme} defaultChecked={localStorage.getItem('theme') === 'dark'} />
+                                        <Form.Check 
+                                            type="switch" 
+                                            id="theme-switch" 
+                                            className="fs-4" 
+                                            checked={isDarkMode} 
+                                            onChange={toggleTheme} 
+                                        />
                                     </div>
                                 </ListGroup.Item>
 
@@ -103,7 +119,6 @@ const Configuracion = () => {
                             </ListGroup>
                         </Card.Body>
                     </Card>
-
                     <Card className="border-0 shadow-sm rounded-4 overflow-hidden mb-4">
                         <Card.Header className="bg-white border-bottom-0 pt-4 pb-2 px-4">
                             <h6 className="fw-bold text-danger mb-0 text-uppercase" style={{ fontSize: '0.85rem', letterSpacing: '1px' }}>
