@@ -1,16 +1,22 @@
-# React + Vite
+# Trabajo Práctico Integrador - Grupo 16
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descripción del Proyecto
 
-Currently, two official plugins are available:
+El objetivo de este proyecto es construir un Panel de Control de Clientes en tiempo real. Consiste en el desarrollo de una aplicación web funcional, estructurada en componentes, utilizando React, Vite, JavaScript y React Router DOM. La plataforma se conecta de forma asincrónica a un servidor real en la nube consumiendo la API pública FakeStoreAPI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+La aplicación cuenta con autenticación de administradores por sector (Soporte/Gerencia) mediante Context API y persistencia en LocalStorage, listado y búsqueda dinámica de clientes, alta de nuevos clientes, y ficha detallada por cliente con permisos diferenciados según el rol del administrador logueado.
 
-## React Compiler
+## Tecnologías utilizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React + Vite
+- React Router DOM
+- React Bootstrap
+- FakeStoreAPI
 
-## Expanding the ESLint configuration
+## Integrantes
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Franco Gabriel Sanchez Amaya - [Seiseishon](https://github.com/Seiseishon)
+- Noel Silvio Raul Chiliguay - [NoelChiliguay](https://github.com/NoelChiliguay)
+- Nelson Fabian Ramos - [Nelson-Ramos07](https://github.com/Nelson-Ramos07)
+- Mauricio Maximiliano Villarreal - [VillarrealMauricio](https://github.com/VillarrealMauricio)
+- Sergio Saul Alex Soza - [SergiosSozas1621](https://github.com/SergiosSozas1621)
