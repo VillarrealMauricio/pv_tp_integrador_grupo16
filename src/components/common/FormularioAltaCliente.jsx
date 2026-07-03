@@ -1,21 +1,60 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Form, Button, Row, Col, InputGroup, Spinner } from 'react-bootstrap';
 
 const FormularioAltaCliente = ({ show, onHide, onSuccess, onError }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const [listaProvincias, setListaProvincias] = useState([]);
+    const [listaLocalidades, setListaLocalidades] = useState([]);
+
     const [nuevoCliente, setNuevoCliente] = useState({
         firstname: '',
         lastname: '',
         email: '',
         phone: '',
-        city: ''
+        provincia: '',
+        localidad: ''
     });
 
+    useEffect(() => {
+        fetch('https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre')
+            .then(res => res.json())
+            .then(data => {
+                const ordenadas = data.provincias.sort((a, b) => a.nombre.localeCompare(b.nombre));
+                setListaProvincias(ordenadas);
+            })
+            .catch(err => console.error("Error cargando provincias:", err));
+    }, []);
+
+    useEffect(() => {
+        if (!nuevoCliente.provincia) {
+            setListaLocalidades([]);
+            return;
+        }
+
+        fetch(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${nuevoCliente.provincia}&campos=id,nombre&max=5000`)
+            .then(res => res.json())
+            .then(data => {
+                const ordenadas = data.localidades.sort((a, b) => a.nombre.localeCompare(b.nombre));
+                setListaLocalidades(ordenadas);
+            })
+            .catch(err => console.error("Error cargando localidades:", err));
+    }, [nuevoCliente.provincia]);
+
     const handleChange = (e) => {
-        setNuevoCliente({
-            ...nuevoCliente,
-            [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+        if (name === "provincia") {
+            setNuevoCliente({
+                ...nuevoCliente,
+                provincia: value,
+                localidad: ''
+            });
+        } else {
+            setNuevoCliente({
+                ...nuevoCliente,
+                [name]: value
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -32,7 +71,7 @@ const FormularioAltaCliente = ({ show, onHide, onSuccess, onError }) => {
                     lastname: nuevoCliente.lastname
                 },
                 address: {
-                    city: nuevoCliente.city,
+                    city: `${nuevoCliente.localidad}, ${nuevoCliente.provincia}`,
                     street: 'Calle Falsa',
                     number: 123,
                     zipcode: '4600',
@@ -50,7 +89,7 @@ const FormularioAltaCliente = ({ show, onHide, onSuccess, onError }) => {
             if (response.ok || response.status === 201) {
                 const data = await response.json();
                 
-                setNuevoCliente({ firstname: '', lastname: '', email: '', phone: '', city: '' });
+                setNuevoCliente({ firstname: '', lastname: '', email: '', phone: '', provincia: '', localidad:'' });
                 
                 onSuccess(data.id, payload);
             } else {
@@ -119,10 +158,38 @@ const FormularioAltaCliente = ({ show, onHide, onSuccess, onError }) => {
                         </Col>
                         <Col md={6}>
                             <Form.Group>
-                                <Form.Label className="fw-medium text-dark mb-1" style={{ fontSize: '0.9rem' }}>Ciudad de Residencia</Form.Label>
+                                <Form.Label className="fw-medium text-dark mb-1" style={{ fontSize: '0.9rem' }}>Provincia</Form.Label>
+                                <InputGroup className="shadow-sm">
+                                    <InputGroup.Text className="bg-light border-end-0 text-secondary"><i className="fas fa-map"></i></InputGroup.Text>
+                                    <Form.Select name="provincia" value={nuevoCliente.provincia} onChange={handleChange} required className="border-start-0 py-2">
+                                        <option value="">Selecciona Provincia...</option>
+                                        {listaProvincias.map(p => (
+                                            <option key={p.id} value={p.nombre}>{p.nombre}</option>
+                                        ))}
+                                    </Form.Select>
+                                </InputGroup>
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group>
+                                <Form.Label className="fw-medium text-dark mb-1" style={{ fontSize: '0.9rem' }}>Localidad de Residencia</Form.Label>
                                 <InputGroup className="shadow-sm">
                                     <InputGroup.Text className="bg-light border-end-0 text-secondary"><i className="fas fa-map-marker-alt"></i></InputGroup.Text>
-                                    <Form.Control type="text" name="city" value={nuevoCliente.city} onChange={handleChange} required placeholder="San Salvador de Jujuy" className="border-start-0 py-2" />
+                                    <Form.Select 
+                                        name="localidad" 
+                                        value={nuevoCliente.localidad} 
+                                        onChange={handleChange} 
+                                        required 
+                                        className="border-start-0 py-2"
+                                        disabled={!nuevoCliente.provincia}
+                                    >
+                                        <option value="">
+                                            {!nuevoCliente.provincia ? "Localidad..." : "Selecciona Localidad..."}
+                                        </option>
+                                        {listaLocalidades.map(l => (
+                                            <option key={l.id} value={l.nombre}>{l.nombre}</option>
+                                        ))}
+                                    </Form.Select>
                                 </InputGroup>
                             </Form.Group>
                         </Col>
