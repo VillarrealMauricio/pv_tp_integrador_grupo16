@@ -41,15 +41,12 @@ const PerfilAdmin = () => {
 
             <Row className="g-4">
                 <Col xs={12} lg={5}>
-                    {/* Componente 1 */}
                     <TarjetaPerfil nombreAdmin={nombreAdmin} sectorAdmin={sectorAdmin} privilegios={privilegios} />
                 </Col>
 
                 <Col xs={12} lg={7}>
-                    {/* Componente 2 */}
                     <MetricasActividad />
                     
-                    {/* Componente 3 */}
                     <ModulosSupervision />
                 </Col>
             </Row>
