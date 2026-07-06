@@ -21,13 +21,13 @@ const RegistroActividad = () => {
                     <tbody>
                         <tr>
                             <td className="py-3 fw-medium text-dark"><i className="fas fa-user-astronaut text-primary me-2 opacity-75"></i>Mauricio Villarreal</td>
-                            <td className="py-3 text-secondary">Alta de nuevo cliente (#128)</td>
+                            <td className="py-3 text-secondary">Alta de nuevo cliente (#11)</td>
                             <td className="py-3 text-secondary">Hace 10 min</td>
                             <td><Badge bg="success" className="bg-opacity-10 text-success fw-bold px-3 py-2 rounded-pill">Completado</Badge></td>
                         </tr>
                         <tr>
                             <td className="py-3 fw-medium text-dark"><i className="fas fa-code text-primary me-2 opacity-75"></i>Noel Chiliguay</td>
-                            <td className="py-3 text-secondary">Actualización masiva de inventario</td>
+                            <td className="py-3 text-secondary">Actualización masiva de Base de datos</td>
                             <td className="py-3 text-secondary">Hace 1 hora</td>
                             <td><Badge bg="success" className="bg-opacity-10 text-success fw-bold px-3 py-2 rounded-pill">Completado</Badge></td>
                         </tr>

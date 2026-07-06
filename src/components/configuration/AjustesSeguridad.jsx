@@ -2,7 +2,6 @@ import { Card, ListGroup, Form, Badge, Button } from 'react-bootstrap';
 
 const AjustesSeguridad = () => {
     
-    // Función para limpiar el localStorage y recargar
     const handleRestaurarDatos = () => {
         if(window.confirm('¿Estás seguro? Esto borrará tus clientes locales y restaurará los de la API.')) {
             localStorage.removeItem('clientes_eliminados');
@@ -54,7 +53,6 @@ const AjustesSeguridad = () => {
                         </div>
                     </ListGroup.Item>
 
-                    {/* A este le devolvemos el borde sutil */}
                     <ListGroup.Item className="p-4 bg-transparent border-light-subtle">
                         <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                             <div className="d-flex align-items-center gap-3">
@@ -72,7 +70,6 @@ const AjustesSeguridad = () => {
                         </div>
                     </ListGroup.Item>
 
-                    {/* El nuevo botón de restablecer va sin borde inferior */}
                     <ListGroup.Item className="p-4 bg-transparent border-0">
                         <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                             <div className="d-flex align-items-center gap-3">
