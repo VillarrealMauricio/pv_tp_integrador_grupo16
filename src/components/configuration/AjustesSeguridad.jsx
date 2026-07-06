@@ -1,6 +1,17 @@
 import { Card, ListGroup, Form, Badge, Button } from 'react-bootstrap';
 
 const AjustesSeguridad = () => {
+    
+    // Función para limpiar el localStorage y recargar
+    const handleRestaurarDatos = () => {
+        if(window.confirm('¿Estás seguro? Esto borrará tus clientes locales y restaurará los de la API.')) {
+            localStorage.removeItem('clientes_eliminados');
+            localStorage.removeItem('mis_clientes_nuevos');
+            alert('Base de datos restablecida. Recargando el sistema...');
+            window.location.reload();
+        }
+    };
+
     return (
         <Card className="border-0 shadow-sm rounded-4 overflow-hidden mb-4">
             <Card.Header className="bg-white border-bottom-0 pt-4 pb-2 px-4">
@@ -43,7 +54,8 @@ const AjustesSeguridad = () => {
                         </div>
                     </ListGroup.Item>
 
-                    <ListGroup.Item className="p-4 bg-transparent border-0">
+                    {/* A este le devolvemos el borde sutil */}
+                    <ListGroup.Item className="p-4 bg-transparent border-light-subtle">
                         <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                             <div className="d-flex align-items-center gap-3">
                                 <div className="bg-secondary bg-opacity-10 text-secondary rounded-circle d-flex align-items-center justify-content-center" style={{ width: '45px', height: '45px' }}>
@@ -56,6 +68,28 @@ const AjustesSeguridad = () => {
                             </div>
                             <Button variant="light" className="border rounded-pill fw-medium px-4 text-secondary ms-5 ms-md-0 shadow-sm">
                                 <i className="fas fa-sync-alt me-2"></i>Sincronizar Ahora
+                            </Button>
+                        </div>
+                    </ListGroup.Item>
+
+                    {/* El nuevo botón de restablecer va sin borde inferior */}
+                    <ListGroup.Item className="p-4 bg-transparent border-0">
+                        <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                            <div className="d-flex align-items-center gap-3">
+                                <div className="bg-danger bg-opacity-10 text-danger rounded-circle d-flex align-items-center justify-content-center" style={{ width: '45px', height: '45px' }}>
+                                    <i className="fas fa-trash-restore fs-5"></i>
+                                </div>
+                                <div>
+                                    <h6 className="fw-bold mb-1 text-danger">Restablecer Datos de Prueba</h6>
+                                    <p className="text-secondary mb-0 small">Restaura los clientes de FakeStoreAPI y elimina los datos locales.</p>
+                                </div>
+                            </div>
+                            <Button 
+                                variant="outline-danger" 
+                                className="rounded-pill fw-medium px-4 ms-5 ms-md-0 shadow-sm"
+                                onClick={handleRestaurarDatos}
+                            >
+                                <i className="fas fa-redo-alt me-2"></i>Restablecer
                             </Button>
                         </div>
                     </ListGroup.Item>
