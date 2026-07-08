@@ -11,24 +11,26 @@ const DetalleCliente = () => {
     const { id } = useParams();
     const { admin } = useContext(AdminContext);
     const navigate = useNavigate();
-
     const [cliente, setCliente] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showModalEliminar, setShowModalEliminar] = useState(false);
-
     const handleEliminar = async () => {
         try {
             await fetch(`https://fakestoreapi.com/users/${cliente.id}`, { method: 'DELETE' });
 
             const clientesLocales = JSON.parse(localStorage.getItem('mis_clientes_nuevos')) || [];
-            const filtrados = clientesLocales.filter(c => String(c.id) !== String(cliente.id));
-            localStorage.setItem('mis_clientes_nuevos', JSON.stringify(filtrados));
+            const esClienteLocal = clientesLocales.some(c => String(c.id) === String(cliente.id));
 
-            const clientesEliminados = JSON.parse(localStorage.getItem('clientes_eliminados')) || [];
-            if (!clientesEliminados.includes(String(cliente.id))) {
-                clientesEliminados.push(String(cliente.id));
-                localStorage.setItem('clientes_eliminados', JSON.stringify(clientesEliminados));
+            if (esClienteLocal) {
+                const filtrados = clientesLocales.filter(c => String(c.id) !== String(cliente.id));
+                localStorage.setItem('mis_clientes_nuevos', JSON.stringify(filtrados));
+            } else {
+                const clientesEliminados = JSON.parse(localStorage.getItem('clientes_eliminados')) || [];
+                if (!clientesEliminados.includes(String(cliente.id))) {
+                    clientesEliminados.push(String(cliente.id));
+                    localStorage.setItem('clientes_eliminados', JSON.stringify(clientesEliminados));
+                }
             }
 
             setShowModalEliminar(false);
